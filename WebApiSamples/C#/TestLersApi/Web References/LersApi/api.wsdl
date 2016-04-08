@@ -1,0 +1,1266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.lers.ru/website/api" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.lers.ru/website/api" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+&lt;b&gt;Описание:&lt;/b&gt;&lt;/br&gt;
+&lt;/br&gt;
+Программный интерфейс для взаимодействия с системой ЛЭРС УЧЕТ. &lt;a href='http://support.lers.ru/docs/x/LIAM' &gt;Документация по API.&lt;/a&gt;&lt;br/&gt;
+&lt;br/&gt;
+Для работы с веб-службой необходима поддержка технологии передачи cookie на клиентской стороне.&lt;/br&gt;
+&lt;/br&gt;
+Основная часть функций требует наличия активного сеанса, который создается с помощью аутентификации (функция Login). После успешной аутентификации, идентификация клиента происходит по средствам технологии передачи cookie.&lt;br/&gt;
+&lt;br/&gt;
+Сеанс можно закрыть либо явно (функция Logout), либо он будет закрыт автоматически при отсутствии активности в течение часа.&lt;br/&gt;
+&lt;br/&gt;</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.lers.ru/website/api">
+      <s:element name="userName" type="s:string" />
+      <s:element name="password" type="s:string" />
+      <s:element name="LoginResult" type="tns:Response" />
+      <s:complexType name="Response">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ErrorCode" type="tns:ErrorCode" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ErrorCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="AuthorizationError" />
+          <s:enumeration value="UserMessage" />
+          <s:enumeration value="UnhandledException" />
+          <s:enumeration value="IncorrectRequest" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ResponseGetMeasurePointDeviceErrors">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="MonthArchive" type="tns:ArrayOfMeasurePointDeviceErrorRecord" />
+              <s:element minOccurs="0" maxOccurs="1" name="DayArchive" type="tns:ArrayOfMeasurePointDeviceErrorRecord" />
+              <s:element minOccurs="0" maxOccurs="1" name="HourArchive" type="tns:ArrayOfMeasurePointDeviceErrorRecord" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfMeasurePointDeviceErrorRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MeasurePointDeviceErrorRecord" nillable="true" type="tns:MeasurePointDeviceErrorRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MeasurePointDeviceErrorRecord">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ArchiveType" type="tns:DeviceEventArchiveType" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChannelNumber" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="DateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Code" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="DeviceEventArchiveType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Common" />
+          <s:enumeration value="HeatLeadIn" />
+          <s:enumeration value="Channel" />
+          <s:enumeration value="DiscreteInput" />
+          <s:enumeration value="DiscreteOutput" />
+          <s:enumeration value="ModeChange" />
+          <s:enumeration value="UserActions" />
+          <s:enumeration value="PowerInterruptionPeriods" />
+          <s:enumeration value="ConfigChanges" />
+          <s:enumeration value="Diagnostics" />
+          <s:enumeration value="Incidents" />
+          <s:enumeration value="MonthPowerInterruptions" />
+          <s:enumeration value="DayPowerInterruptions" />
+          <s:enumeration value="DiagnosticNonAffectingRecording" />
+          <s:enumeration value="IncidentsAffectingRecording" />
+          <s:enumeration value="DaySummarizedIncidents" />
+          <s:enumeration value="HourSummarizedIncidents" />
+          <s:enumeration value="CommonEvents" />
+          <s:enumeration value="IndividualEvents" />
+          <s:enumeration value="PrevAndCurrMonthIncidents" />
+          <s:enumeration value="PeripherialErrors" />
+          <s:enumeration value="Failures" />
+          <s:enumeration value="Errors" />
+          <s:enumeration value="Warnings" />
+          <s:enumeration value="Messages" />
+          <s:enumeration value="BasicLog" />
+          <s:enumeration value="SystemLog" />
+          <s:enumeration value="HotWaterLog" />
+          <s:enumeration value="System1" />
+          <s:enumeration value="System2" />
+          <s:enumeration value="System3" />
+          <s:enumeration value="Status5" />
+          <s:enumeration value="Status6" />
+          <s:enumeration value="StatusSys" />
+          <s:enumeration value="HardwareIncidents" />
+          <s:enumeration value="HardwareEvents" />
+          <s:enumeration value="HsEvents" />
+          <s:enumeration value="HmEvents" />
+          <s:enumeration value="HeatSystemEvents" />
+          <s:enumeration value="AdditionalIncidents" />
+          <s:enumeration value="SensorFailures" />
+          <s:enumeration value="HeatSystemIncidents" />
+          <s:enumeration value="HardwareFailures" />
+          <s:enumeration value="HeatSystemStatus" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ResponseGetMeasurePointElectricPower">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ElectricPower" type="tns:ArrayOfMeasurePointElectricPowerRecord" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfMeasurePointElectricPowerRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MeasurePointElectricPowerRecord" nillable="true" type="tns:MeasurePointElectricPowerRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MeasurePointElectricPowerRecord">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Interval" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="Pp" nillable="true" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Pn" nillable="true" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Qp" nillable="true" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Qn" nillable="true" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResponseExportMeasurePointDataToXml80020">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Xml" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ResponseGetMeasurePointTotals">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Totals" type="tns:ArrayOfMeasurePointTotalsRecord" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfMeasurePointTotalsRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MeasurePointTotalsRecord" nillable="true" type="tns:MeasurePointTotalsRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MeasurePointTotalsRecord">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ResourceKind" type="tns:ResourceKind" />
+          <s:element minOccurs="1" maxOccurs="1" name="DateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ResourceKind">
+        <s:restriction base="s:string">
+          <s:enumeration value="Water" />
+          <s:enumeration value="Electricity" />
+          <s:enumeration value="Gas" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ElectricTotalsRecord">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:MeasurePointTotalsRecord">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Ap1" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An1" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp1" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn1" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Ap2" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An2" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp2" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn2" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Ap3" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An3" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp3" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn3" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Ap4" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An4" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp4" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn4" nillable="true" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GasTotalsRecord">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:MeasurePointTotalsRecord">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="WorkTime" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V_std" nillable="true" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="WaterTotalsRecord">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:MeasurePointTotalsRecord">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="WorkTime" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="StopDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="FlowUnderrunDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="FlowOverrunDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="TempDiffLowDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="NoPowerDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="IncidentDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="SaturatedSteamDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="M_in" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="M_out" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Q_in" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Q_out" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Q_delta" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V_in" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V_out" nillable="true" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ResponseGetMeasurePointConsumption">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Data" type="tns:ArrayOfMeasurePointConsumptionRecord" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfMeasurePointConsumptionRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MeasurePointConsumptionRecord" nillable="true" type="tns:MeasurePointConsumptionRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MeasurePointConsumptionRecord" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ResourceKind" type="tns:ResourceKind" />
+          <s:element minOccurs="1" maxOccurs="1" name="DateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ElectricConsumptionRecord">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:MeasurePointConsumptionRecord">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="NormalOperationDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Ap" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Ap1" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An1" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp1" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn1" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Ap2" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An2" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp2" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn2" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Ap3" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An3" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp3" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn3" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Ap4" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="An4" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rp4" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Rn4" nillable="true" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GasConsumptionRecord">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:MeasurePointConsumptionRecord">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="WorkTime" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="T" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="T_outdoor" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="P" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V_std" nillable="true" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="WaterConsumptionRecord">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:MeasurePointConsumptionRecord">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="WorkTime" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="StopDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="FlowUnderrunDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="FlowOverrunDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="TempDiffLowDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="NoPowerDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="IncidentDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="SaturatedSteamDuration" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="T_in" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="T_out" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="T_delta" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="T_cw" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="T_outdoor" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="M_in" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="M_out" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="M_delta" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Q_in" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Q_out" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="Q_delta" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="P_in" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="P_out" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="P_delta" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V_in" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V_out" nillable="true" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="V_delta" nillable="true" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ResponseGetNodeList">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="NodeList" type="tns:ArrayOfNode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfNode">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Node" nillable="true" type="tns:Node" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Node">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Number" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Comment" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResponsibleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResponsiblePhone" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:NodeType" />
+          <s:element minOccurs="0" maxOccurs="1" name="Customer" type="tns:Customer" />
+          <s:element minOccurs="0" maxOccurs="1" name="Serviceman" type="tns:Serviceman" />
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceCompany" type="tns:ServiceCompany" />
+          <s:element minOccurs="0" maxOccurs="1" name="Systems" type="tns:NodeSytemsInformation" />
+          <s:element minOccurs="0" maxOccurs="1" name="Rooms" type="tns:ArrayOfRoom" />
+          <s:element minOccurs="0" maxOccurs="1" name="Attributes" type="tns:ArrayOfCustomAttributeCodeValue" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="NodeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="Node" />
+          <s:enumeration value="House" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Customer">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsNaturalPerson" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="VatId" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Serviceman">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ServiceCompany">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NodeSytemsInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AllMeasurePoints" type="tns:ArrayOfMeasurePoint" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMeasurePoint">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MeasurePoint" nillable="true" type="tns:MeasurePoint" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MeasurePoint">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FullTitle" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SystemType" type="tns:SystemType" />
+          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:MeasurePointType" />
+          <s:element minOccurs="1" maxOccurs="1" name="Number" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Comment" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="State" type="tns:MeasurePointState" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsDoublePipeHotWaterSystem" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Device" type="tns:Equipment" />
+          <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:Equipment" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsTwoChannels" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Attributes" type="tns:ArrayOfCustomAttributeCodeValue" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="SystemType">
+        <s:list>
+          <s:simpleType>
+            <s:restriction base="s:string">
+              <s:enumeration value="None" />
+              <s:enumeration value="Heat" />
+              <s:enumeration value="HotWater" />
+              <s:enumeration value="ColdWater" />
+              <s:enumeration value="Steam" />
+              <s:enumeration value="Gas" />
+              <s:enumeration value="Electricity" />
+            </s:restriction>
+          </s:simpleType>
+        </s:list>
+      </s:simpleType>
+      <s:simpleType name="MeasurePointType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Regular" />
+          <s:enumeration value="Communal" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="MeasurePointState">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="Normal" />
+          <s:enumeration value="Warning" />
+          <s:enumeration value="Error" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Equipment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Model" type="tns:EquipmentModel" />
+          <s:element minOccurs="0" maxOccurs="1" name="SerialNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Comment" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastCalibrationDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ScheduledCalibrationDate" nillable="true" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="EquipmentModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LongTitle" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CalibrationInterval" type="s:unsignedByte" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCustomAttributeCodeValue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CustomAttributeCodeValue" nillable="true" type="tns:CustomAttributeCodeValue" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeCodeValue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AttributeCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AttributeValue" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRoom">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Room" nillable="true" type="tns:Room" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Room">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="PersonalAccountNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResidentCount" type="s:unsignedByte" />
+          <s:element minOccurs="1" maxOccurs="1" name="Area" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:RoomType" />
+          <s:element minOccurs="0" maxOccurs="1" name="MeasurePoints" type="tns:ArrayOfMeasurePoint" />
+          <s:element minOccurs="0" maxOccurs="1" name="Counters" type="tns:ArrayOfEquipment" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="RoomType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Living" />
+          <s:enumeration value="Nonresidential" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfEquipment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Equipment" nillable="true" type="tns:Equipment" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResponseGetMeasurePointList">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="MeasurePointList" type="tns:ArrayOfMeasurePoint" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ResponseGetRoom">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Room" type="tns:Room" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ResponseGetNode">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Node" type="tns:Node" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ResponseGetMeasurePoint">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Response">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="MeasurePoint" type="tns:MeasurePoint" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="LogoutResult" type="tns:Response" />
+      <s:element name="measurePointId" type="s:int" />
+      <s:element name="GetMeasurePointByIdResult" type="tns:ResponseGetMeasurePoint" />
+      <s:element name="measurePointFlags" type="tns:MeasurePointInfoFlags" />
+      <s:simpleType name="MeasurePointInfoFlags">
+        <s:list>
+          <s:simpleType>
+            <s:restriction base="s:string">
+              <s:enumeration value="None" />
+              <s:enumeration value="Equipment" />
+              <s:enumeration value="ContractConsumption" />
+              <s:enumeration value="ConsumptionLimit" />
+              <s:enumeration value="Attributes" />
+            </s:restriction>
+          </s:simpleType>
+        </s:list>
+      </s:simpleType>
+      <s:element name="GetMeasurePointByIdExtendedResult" type="tns:ResponseGetMeasurePoint" />
+      <s:element name="measurePointNumber" type="s:int" />
+      <s:element name="GetMeasurePointByNumberResult" type="tns:ResponseGetMeasurePoint" />
+      <s:element name="GetMeasurePointByNumberExtendedResult" type="tns:ResponseGetMeasurePoint" />
+      <s:element name="nodeId" type="s:int" />
+      <s:element name="GetNodeByIdResult" type="tns:ResponseGetNode" />
+      <s:element name="flags" type="tns:NodeInfoFlags" />
+      <s:simpleType name="NodeInfoFlags">
+        <s:list>
+          <s:simpleType>
+            <s:restriction base="s:string">
+              <s:enumeration value="None" />
+              <s:enumeration value="Systems" />
+              <s:enumeration value="Customer" />
+              <s:enumeration value="Serviceman" />
+              <s:enumeration value="ServiceCompany" />
+              <s:enumeration value="NodeGroups" />
+              <s:enumeration value="BalanceFormulae" />
+              <s:enumeration value="DiagSettings" />
+              <s:enumeration value="Reports" />
+              <s:enumeration value="Suppliers" />
+              <s:enumeration value="Equipment" />
+              <s:enumeration value="Rooms" />
+              <s:enumeration value="ContractTemperature" />
+              <s:enumeration value="Signaling" />
+              <s:enumeration value="Attributes" />
+            </s:restriction>
+          </s:simpleType>
+        </s:list>
+      </s:simpleType>
+      <s:element name="GetNodeByIdExtendedResult" type="tns:ResponseGetNode" />
+      <s:element name="nodeNumber" type="s:int" />
+      <s:element name="GetNodeByNumberResult" type="tns:ResponseGetNode" />
+      <s:element name="GetNodeByNumberExtendedResult" type="tns:ResponseGetNode" />
+      <s:element name="roomId" type="s:int" />
+      <s:element name="GetRoomByIdResult" type="tns:ResponseGetRoom" />
+      <s:element name="roomFlags" type="tns:RoomInfoFlags" />
+      <s:simpleType name="RoomInfoFlags">
+        <s:list>
+          <s:simpleType>
+            <s:restriction base="s:string">
+              <s:enumeration value="None" />
+              <s:enumeration value="MeasurePoints" />
+              <s:enumeration value="Counters" />
+              <s:enumeration value="ContractConsumption" />
+            </s:restriction>
+          </s:simpleType>
+        </s:list>
+      </s:simpleType>
+      <s:element name="GetRoomByIdExtendedResult" type="tns:ResponseGetRoom" />
+      <s:element name="GetMeasurePointListResult" type="tns:ResponseGetMeasurePointList" />
+      <s:element name="GetNodeListResult" type="tns:ResponseGetNodeList" />
+      <s:element name="GetNodeListExtendedResult" type="tns:ResponseGetNodeList" />
+      <s:element name="startDate" type="s:dateTime" />
+      <s:element name="endDate" type="s:dateTime" />
+      <s:element name="dataType" type="tns:DeviceDataType" />
+      <s:simpleType name="DeviceDataType">
+        <s:list>
+          <s:simpleType>
+            <s:restriction base="s:string">
+              <s:enumeration value="None" />
+              <s:enumeration value="DeviceConfig" />
+              <s:enumeration value="Events" />
+              <s:enumeration value="Current" />
+              <s:enumeration value="Interval" />
+              <s:enumeration value="Month" />
+              <s:enumeration value="Day" />
+              <s:enumeration value="Hour" />
+              <s:enumeration value="PowerProfile" />
+              <s:enumeration value="Totals" />
+            </s:restriction>
+          </s:simpleType>
+        </s:list>
+      </s:simpleType>
+      <s:element name="GetMeasurePointConsumptionResult" type="tns:ResponseGetMeasurePointConsumption" />
+      <s:element name="GetMeasurePointTotalsResult" type="tns:ResponseGetMeasurePointTotals" />
+      <s:element name="ExportMeasurePointDataToXml80020Result" type="tns:ResponseExportMeasurePointDataToXml80020" />
+      <s:element name="dataKind" type="tns:ElectricDataKind" />
+      <s:simpleType name="ElectricDataKind">
+        <s:restriction base="s:string">
+          <s:enumeration value="Raw" />
+          <s:enumeration value="Real" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="averagingInterval" type="tns:ElectricPowerAveraging" />
+      <s:simpleType name="ElectricPowerAveraging">
+        <s:restriction base="s:string">
+          <s:enumeration value="Default" />
+          <s:enumeration value="Hourly" />
+          <s:enumeration value="Daily" />
+          <s:enumeration value="HalfHourly" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetMeasurePointElectricPowerResult" type="tns:ResponseGetMeasurePointElectricPower" />
+      <s:element name="dataTypes" type="tns:DeviceDataType" />
+      <s:element name="GetMeasurePointDeviceErrorsResult" type="tns:ResponseGetMeasurePointDeviceErrors" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="LoginSoapIn">
+    <wsdl:part name="userName" element="tns:userName" />
+    <wsdl:part name="password" element="tns:password" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapOut">
+    <wsdl:part name="LoginResult" element="tns:LoginResult" />
+  </wsdl:message>
+  <wsdl:message name="LogoutSoapIn" />
+  <wsdl:message name="LogoutSoapOut">
+    <wsdl:part name="LogoutResult" element="tns:LogoutResult" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointByIdSoapIn">
+    <wsdl:part name="measurePointId" element="tns:measurePointId" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointByIdSoapOut">
+    <wsdl:part name="GetMeasurePointByIdResult" element="tns:GetMeasurePointByIdResult" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointByIdExtendedSoapIn">
+    <wsdl:part name="measurePointId" element="tns:measurePointId" />
+    <wsdl:part name="measurePointFlags" element="tns:measurePointFlags" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointByIdExtendedSoapOut">
+    <wsdl:part name="GetMeasurePointByIdExtendedResult" element="tns:GetMeasurePointByIdExtendedResult" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointByNumberSoapIn">
+    <wsdl:part name="measurePointNumber" element="tns:measurePointNumber" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointByNumberSoapOut">
+    <wsdl:part name="GetMeasurePointByNumberResult" element="tns:GetMeasurePointByNumberResult" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointByNumberExtendedSoapIn">
+    <wsdl:part name="measurePointNumber" element="tns:measurePointNumber" />
+    <wsdl:part name="measurePointFlags" element="tns:measurePointFlags" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointByNumberExtendedSoapOut">
+    <wsdl:part name="GetMeasurePointByNumberExtendedResult" element="tns:GetMeasurePointByNumberExtendedResult" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeByIdSoapIn">
+    <wsdl:part name="nodeId" element="tns:nodeId" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeByIdSoapOut">
+    <wsdl:part name="GetNodeByIdResult" element="tns:GetNodeByIdResult" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeByIdExtendedSoapIn">
+    <wsdl:part name="nodeId" element="tns:nodeId" />
+    <wsdl:part name="flags" element="tns:flags" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeByIdExtendedSoapOut">
+    <wsdl:part name="GetNodeByIdExtendedResult" element="tns:GetNodeByIdExtendedResult" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeByNumberSoapIn">
+    <wsdl:part name="nodeNumber" element="tns:nodeNumber" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeByNumberSoapOut">
+    <wsdl:part name="GetNodeByNumberResult" element="tns:GetNodeByNumberResult" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeByNumberExtendedSoapIn">
+    <wsdl:part name="nodeNumber" element="tns:nodeNumber" />
+    <wsdl:part name="flags" element="tns:flags" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeByNumberExtendedSoapOut">
+    <wsdl:part name="GetNodeByNumberExtendedResult" element="tns:GetNodeByNumberExtendedResult" />
+  </wsdl:message>
+  <wsdl:message name="GetRoomByIdSoapIn">
+    <wsdl:part name="roomId" element="tns:roomId" />
+  </wsdl:message>
+  <wsdl:message name="GetRoomByIdSoapOut">
+    <wsdl:part name="GetRoomByIdResult" element="tns:GetRoomByIdResult" />
+  </wsdl:message>
+  <wsdl:message name="GetRoomByIdExtendedSoapIn">
+    <wsdl:part name="roomId" element="tns:roomId" />
+    <wsdl:part name="roomFlags" element="tns:roomFlags" />
+  </wsdl:message>
+  <wsdl:message name="GetRoomByIdExtendedSoapOut">
+    <wsdl:part name="GetRoomByIdExtendedResult" element="tns:GetRoomByIdExtendedResult" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointListSoapIn" />
+  <wsdl:message name="GetMeasurePointListSoapOut">
+    <wsdl:part name="GetMeasurePointListResult" element="tns:GetMeasurePointListResult" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeListSoapIn" />
+  <wsdl:message name="GetNodeListSoapOut">
+    <wsdl:part name="GetNodeListResult" element="tns:GetNodeListResult" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeListExtendedSoapIn">
+    <wsdl:part name="flags" element="tns:flags" />
+  </wsdl:message>
+  <wsdl:message name="GetNodeListExtendedSoapOut">
+    <wsdl:part name="GetNodeListExtendedResult" element="tns:GetNodeListExtendedResult" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointConsumptionSoapIn">
+    <wsdl:part name="measurePointId" element="tns:measurePointId" />
+    <wsdl:part name="startDate" element="tns:startDate" />
+    <wsdl:part name="endDate" element="tns:endDate" />
+    <wsdl:part name="dataType" element="tns:dataType" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointConsumptionSoapOut">
+    <wsdl:part name="GetMeasurePointConsumptionResult" element="tns:GetMeasurePointConsumptionResult" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointTotalsSoapIn">
+    <wsdl:part name="measurePointId" element="tns:measurePointId" />
+    <wsdl:part name="startDate" element="tns:startDate" />
+    <wsdl:part name="endDate" element="tns:endDate" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointTotalsSoapOut">
+    <wsdl:part name="GetMeasurePointTotalsResult" element="tns:GetMeasurePointTotalsResult" />
+  </wsdl:message>
+  <wsdl:message name="ExportMeasurePointDataToXml80020SoapIn">
+    <wsdl:part name="measurePointId" element="tns:measurePointId" />
+    <wsdl:part name="startDate" element="tns:startDate" />
+    <wsdl:part name="endDate" element="tns:endDate" />
+  </wsdl:message>
+  <wsdl:message name="ExportMeasurePointDataToXml80020SoapOut">
+    <wsdl:part name="ExportMeasurePointDataToXml80020Result" element="tns:ExportMeasurePointDataToXml80020Result" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointElectricPowerSoapIn">
+    <wsdl:part name="measurePointId" element="tns:measurePointId" />
+    <wsdl:part name="startDate" element="tns:startDate" />
+    <wsdl:part name="endDate" element="tns:endDate" />
+    <wsdl:part name="dataKind" element="tns:dataKind" />
+    <wsdl:part name="averagingInterval" element="tns:averagingInterval" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointElectricPowerSoapOut">
+    <wsdl:part name="GetMeasurePointElectricPowerResult" element="tns:GetMeasurePointElectricPowerResult" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointDeviceErrorsSoapIn">
+    <wsdl:part name="measurePointId" element="tns:measurePointId" />
+    <wsdl:part name="startDate" element="tns:startDate" />
+    <wsdl:part name="endDate" element="tns:endDate" />
+    <wsdl:part name="dataTypes" element="tns:dataTypes" />
+  </wsdl:message>
+  <wsdl:message name="GetMeasurePointDeviceErrorsSoapOut">
+    <wsdl:part name="GetMeasurePointDeviceErrorsResult" element="tns:GetMeasurePointDeviceErrorsResult" />
+  </wsdl:message>
+  <wsdl:portType name="ApiSoap">
+    <wsdl:operation name="Login">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Вход в систему.</wsdl:documentation>
+      <wsdl:input message="tns:LoginSoapIn" />
+      <wsdl:output message="tns:LoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Выход из системы</wsdl:documentation>
+      <wsdl:input message="tns:LogoutSoapIn" />
+      <wsdl:output message="tns:LogoutSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает точку учета по идентификатору.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointByIdSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByIdExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает точку учета с расширенной информацией по идентификатору.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointByIdExtendedSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointByIdExtendedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByNumber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает точку учета по номеру.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointByNumberSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointByNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByNumberExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает точку учета с расширенной информацией по номеру.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointByNumberExtendedSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointByNumberExtendedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает объект учета по идентификатору.</wsdl:documentation>
+      <wsdl:input message="tns:GetNodeByIdSoapIn" />
+      <wsdl:output message="tns:GetNodeByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByIdExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает объект учета с расширенной информацией по идентификатору.</wsdl:documentation>
+      <wsdl:input message="tns:GetNodeByIdExtendedSoapIn" />
+      <wsdl:output message="tns:GetNodeByIdExtendedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByNumber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает объект учета по номеру.</wsdl:documentation>
+      <wsdl:input message="tns:GetNodeByNumberSoapIn" />
+      <wsdl:output message="tns:GetNodeByNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByNumberExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает объект учета с расширенной информацией по номеру.</wsdl:documentation>
+      <wsdl:input message="tns:GetNodeByNumberExtendedSoapIn" />
+      <wsdl:output message="tns:GetNodeByNumberExtendedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает помещение дома по идентификатору.</wsdl:documentation>
+      <wsdl:input message="tns:GetRoomByIdSoapIn" />
+      <wsdl:output message="tns:GetRoomByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomByIdExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает помещение дома с дополнительной информацией по идентификатору.</wsdl:documentation>
+      <wsdl:input message="tns:GetRoomByIdExtendedSoapIn" />
+      <wsdl:output message="tns:GetRoomByIdExtendedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает список точек учета, доступных для учетной записи.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointListSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает список объектов учета, доступных для учетной записи.</wsdl:documentation>
+      <wsdl:input message="tns:GetNodeListSoapIn" />
+      <wsdl:output message="tns:GetNodeListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeListExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает список объектов учета с расширенной информацией, доступных для учетной записи.</wsdl:documentation>
+      <wsdl:input message="tns:GetNodeListExtendedSoapIn" />
+      <wsdl:output message="tns:GetNodeListExtendedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointConsumption">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает потребление по точке учета.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointConsumptionSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointConsumptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointTotals">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает показания по точке учета.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointTotalsSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointTotalsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportMeasurePointDataToXml80020">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Экспорт данных потребления по точке учета в формате Xml 80020.</wsdl:documentation>
+      <wsdl:input message="tns:ExportMeasurePointDataToXml80020SoapIn" />
+      <wsdl:output message="tns:ExportMeasurePointDataToXml80020SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointElectricPower">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает данные профиля электрической мощности по точке учета.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointElectricPowerSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointElectricPowerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointDeviceErrors">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получает данные профиля электрической мощности по точке учета.</wsdl:documentation>
+      <wsdl:input message="tns:GetMeasurePointDeviceErrorsSoapIn" />
+      <wsdl:output message="tns:GetMeasurePointDeviceErrorsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ApiSoap" type="tns:ApiSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://www.lers.ru/website/api/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <soap:operation soapAction="http://www.lers.ru/website/api/Logout" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointById">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByIdExtended">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointByIdExtended" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByNumber">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointByNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByNumberExtended">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointByNumberExtended" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeById">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetNodeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByIdExtended">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetNodeByIdExtended" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByNumber">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetNodeByNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByNumberExtended">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetNodeByNumberExtended" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomById">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetRoomById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomByIdExtended">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetRoomByIdExtended" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointList">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeList">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetNodeList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeListExtended">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetNodeListExtended" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointConsumption">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointConsumption" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointTotals">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointTotals" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportMeasurePointDataToXml80020">
+      <soap:operation soapAction="http://www.lers.ru/website/api/ExportMeasurePointDataToXml80020" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointElectricPower">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointElectricPower" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointDeviceErrors">
+      <soap:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointDeviceErrors" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ApiSoap12" type="tns:ApiSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/Login" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/Logout" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointById">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByIdExtended">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointByIdExtended" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByNumber">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointByNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointByNumberExtended">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointByNumberExtended" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeById">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetNodeById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByIdExtended">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetNodeByIdExtended" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByNumber">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetNodeByNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeByNumberExtended">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetNodeByNumberExtended" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomById">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetRoomById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomByIdExtended">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetRoomByIdExtended" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointList">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointList" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeList">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetNodeList" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNodeListExtended">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetNodeListExtended" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointConsumption">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointConsumption" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointTotals">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointTotals" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportMeasurePointDataToXml80020">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/ExportMeasurePointDataToXml80020" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointElectricPower">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointElectricPower" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurePointDeviceErrors">
+      <soap12:operation soapAction="http://www.lers.ru/website/api/GetMeasurePointDeviceErrors" style="document" soapActionRequired="true" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Api">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+&lt;b&gt;Описание:&lt;/b&gt;&lt;/br&gt;
+&lt;/br&gt;
+Программный интерфейс для взаимодействия с системой ЛЭРС УЧЕТ. &lt;a href='http://support.lers.ru/docs/x/LIAM' &gt;Документация по API.&lt;/a&gt;&lt;br/&gt;
+&lt;br/&gt;
+Для работы с веб-службой необходима поддержка технологии передачи cookie на клиентской стороне.&lt;/br&gt;
+&lt;/br&gt;
+Основная часть функций требует наличия активного сеанса, который создается с помощью аутентификации (функция Login). После успешной аутентификации, идентификация клиента происходит по средствам технологии передачи cookie.&lt;br/&gt;
+&lt;br/&gt;
+Сеанс можно закрыть либо явно (функция Logout), либо он будет закрыт автоматически при отсутствии активности в течение часа.&lt;br/&gt;
+&lt;br/&gt;</wsdl:documentation>
+    <wsdl:port name="ApiSoap" binding="tns:ApiSoap">
+      <soap:address location="http://localhost:54025/api.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ApiSoap12" binding="tns:ApiSoap12">
+      <soap12:address location="http://localhost:54025/api.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

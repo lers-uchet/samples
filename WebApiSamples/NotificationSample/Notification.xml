@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Notifications>
+	<TenantOffice DateTime="2013.06.11 12:14">Внимание. С 23.06.2013 по 30.06.2013 не будет горячей воды.</TenantOffice>
+	<TenantOffice DateTime="2013.06.10 11:18">До 27.03.2013 необходимо ввести показания по своим счетчикам.</TenantOffice>
+	<Main DateTime="2013.06.09 10:10">Внимание. 20.06.2013 в 16:00 будет собрание обслуживающих.</Main>
+</Notifications>
