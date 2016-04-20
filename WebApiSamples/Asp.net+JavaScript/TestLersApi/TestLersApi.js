@@ -88,6 +88,7 @@ function SendLoginRequest(userName, password) {
 		data: "{ 'userName':'" + userName + "','password':'" + password + "' }",
 		success: ReceivedLoginResponse,
 		error: function (jqXHR, textStatus, errorThrown) {
+			console.error("jqXHR: %s \r\ntextStatus: %s \r\nerrorThrown:%s", jqXHR.responseText, textStatus, errorThrown);
 			alert('Не удалось войти в систему.');
 		}
 	});
