@@ -3,3 +3,5 @@
 ################################################################################
 
 /ExternalModuleExample/Properties
+/ExternalModuleExample/obj/Debug
+/ExternalModuleExample/.vs/ExternalModuleExample/v14
