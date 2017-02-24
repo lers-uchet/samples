@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lers.System", "P:\trunk\Framework\Lers.System\Lers.System.csproj", "{78302BFB-2CA1-4EF4-998E-CF137CF21922}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lers.Utils", "..\..\..\trunk\LersCore\Lers.Utils\Lers.Utils.csproj", "{49B55481-57AB-42BF-9DF8-77A44669C3ED}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetNodeCoordinates", "SetNodeCoordinates.csproj", "{F1AF72C6-EBF2-41DB-AB22-BD05B50BCFD5}"
 EndProject
 Global
@@ -22,42 +18,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Debug|x64.ActiveCfg = Debug|x64
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Debug|x64.Build.0 = Debug|x64
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Debug|x86.ActiveCfg = Debug|x86
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Debug|x86.Build.0 = Debug|x86
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Deploy|x64.ActiveCfg = Deploy|x64
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Deploy|x64.Build.0 = Deploy|x64
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Deploy|x86.ActiveCfg = Deploy|x86
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Deploy|x86.Build.0 = Deploy|x86
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Release|x64.ActiveCfg = Release|x64
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Release|x64.Build.0 = Release|x64
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Release|x86.ActiveCfg = Release|x86
-		{78302BFB-2CA1-4EF4-998E-CF137CF21922}.Release|x86.Build.0 = Release|x86
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Debug|x64.Build.0 = Debug|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Debug|x86.ActiveCfg = Debug|x86
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Debug|x86.Build.0 = Debug|x86
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Deploy|x64.ActiveCfg = Deploy|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Deploy|x64.Build.0 = Deploy|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Deploy|x86.ActiveCfg = Deploy|x86
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Deploy|x86.Build.0 = Deploy|x86
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Release|x64.ActiveCfg = Release|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Release|x64.Build.0 = Release|Any CPU
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Release|x86.ActiveCfg = Release|x86
-		{49B55481-57AB-42BF-9DF8-77A44669C3ED}.Release|x86.Build.0 = Release|x86
 		{F1AF72C6-EBF2-41DB-AB22-BD05B50BCFD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1AF72C6-EBF2-41DB-AB22-BD05B50BCFD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1AF72C6-EBF2-41DB-AB22-BD05B50BCFD5}.Debug|x64.ActiveCfg = Debug|Any CPU

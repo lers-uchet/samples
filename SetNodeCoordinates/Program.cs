@@ -33,7 +33,7 @@ namespace SetNodeCoorinates
 
 				var nodes = server.Nodes.GetList();
 
-				for (int i = 1050; i < nodes.Length; ++i)
+				for (int i = 0; i < nodes.Length; ++i)
 				{
 					var node = nodes[i];
 
