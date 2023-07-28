@@ -3,3 +3,6 @@
 ################################################################################
 
 *.dll
+/ExternalModuleExample/obj/Debug
+/ExternalModuleExample/.vs
+/.vs
